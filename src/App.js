@@ -6,7 +6,12 @@ import {
   Link
 } from "react-router-dom";
 
+import ReactGA from 'react-ga';
+
 import logo from './bitcloutoffers.png';
+
+import { createBrowserHistory } from 'history';
+
 import './App.css';
 import './index.css';
 
@@ -15,9 +20,24 @@ import List from "./List.js";
 import Calendar from "./Calendar.js";
 import Bot from "./Bot.js";
 
+const trackingId = "UA-145092910-3"; // Replace with your Google Analytics tracking ID
+ReactGA.initialize(trackingId);
+// ReactGA.set({
+//   userId: auth.currentUserId(),
+//   // any data that is relevant to the user session
+//   // that you would like to track with google analytics
+// })
+
+const history = createBrowserHistory();
+// Initialize google analytics page view tracking
+history.listen(location => {
+  ReactGA.set({ page: location.pathname }); // Update the user's current page
+  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
+
 export default function App() {
   return (
-    <Router>
+    <Router history={history}>
       <div class="container mx-auto">
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
