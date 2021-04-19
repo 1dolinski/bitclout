@@ -101,12 +101,6 @@ export default function List() {
                         </a>
                       ))}
                     </div>
-                    <a
-                      href="#"
-                      className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
-                    >
-                      Log in
-                    </a>
                   </div>
                 </Popover.Panel>
               </Transition>
@@ -118,7 +112,7 @@ export default function List() {
                     <span className="block text-indigo-600 xl:inline">BitClout Offers and Events</span>
                   </h1>
                   <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                    You now have the surf board to ride the wave of Bitclout. Find your wave!
+                    You now have a surf board to ride the wave of Bitclout. Find your wave!
                   </p>
                 </div>
               </main>

@@ -1,6 +1,8 @@
-import { Fragment } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Popover, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import { MenuIcon, XIcon, ArrowRightIcon} from '@heroicons/react/outline'
+
+import Row from './Components/Row.js'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -9,9 +11,80 @@ const navigation = [
   { name: 'Bot', href: '/bot' },
 ]
 
+var Airtable = require('airtable');
+var base = new Airtable({apiKey: 'keyURduiO0k0SRGGY'}).base('appX3lOvCGm05jXmy');
+
 export default function Home() {
+
+    const [page, setPage] = useState(1);
+    const [offers, setOffers] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    
+    useEffect(() => {
+        base('List').select({
+            // Selecting the first 3 records in @BitCloutOffers List:
+            maxRecords: 10,
+            sort: [
+                {field: 'Highlight?', direction: 'desc'},
+                {field: 'Created At', direction: 'desc'}
+            ],
+            filterByFormula: "NOT({Calendar})",
+            view: "@BitCloutOffers List"
+        }).eachPage(function page(records, fetchNextPage) {
+            // This function (`page`) will get called for each page of records.
+        
+            console.log(records);
+            setOffers(records);
+            setIsLoading(false)
+            // records.forEach(function(record) {
+            //     console.log('Retrieved', record);
+            // });
+        
+            // To fetch the next page of records, call `fetchNextPage`.
+            // If there are more records, `page` will get called again.
+            // If there are no more records, `done` will get called.
+            fetchNextPage();
+        
+        }, function done(err) {
+            if (err) { console.error(err); return; }
+        });
+      }, [page]);
+
+      useEffect(() => {
+        base('List').select({
+            // Selecting the first 3 records in @BitCloutOffers List:
+            maxRecords: 10,
+            sort: [
+                {field: 'Highlight?', direction: 'desc'},
+                {field: 'Calendar', direction: 'asc'}
+            ],
+            filterByFormula: "{Calendar} > Today()",
+            view: "@BitCloutOffers List"
+        }).eachPage(function page(records, fetchNextPage) {
+            // This function (`page`) will get called for each page of records.
+        
+            console.log(records);
+            setEvents(records);
+            setIsLoading(false)
+            // records.forEach(function(record) {
+            //     console.log('Retrieved', record);
+            // });
+        
+            // To fetch the next page of records, call `fetchNextPage`.
+            // If there are more records, `page` will get called again.
+            // If there are no more records, `done` will get called.
+            fetchNextPage();
+        
+        }, function done(err) {
+            if (err) { console.error(err); return; }
+        });
+      }, [page]);
+
   return (
       <Fragment>
+
+
     <Popover className="relative bg-white overflow-hidden">
       {({ open }) => (
         <>
@@ -101,12 +174,6 @@ export default function Home() {
                         </a>
                       ))}
                     </div>
-                    <a
-                      href="#"
-                      className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
-                    >
-                      Log in
-                    </a>
                   </div>
                 </Popover.Panel>
               </Transition>
@@ -114,7 +181,7 @@ export default function Home() {
               <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                 <div className="sm:text-center lg:text-left">
                   <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                    <span className="block xl:inline">The Best BitClout</span>{' '}
+                    <span className="block xl:inline">The Biggest BitClout</span>{' '}
                     <span className="block text-indigo-600 xl:inline">Offers and Events</span>
                   </h1>
                   <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
@@ -123,26 +190,10 @@ export default function Home() {
                   <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                     <div className="rounded-md shadow">
                       <a
-                        href="/list"
+                        href="https://airtable.com/shrCuDoIrnE4wNPyf"
                         className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
                       >
-                        See Them All
-                      </a>
-                    </div>
-                    <div className="mt-3 sm:mt-0 sm:ml-3">
-                      <a
-                        href="/calendar"
-                        className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
-                      >
-                        See Calendar
-                      </a>
-                    </div>
-                    <div className="mt-3 sm:mt-0 sm:ml-3">
-                      <a
-                        href="/bot"
-                        className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
-                      >
-                        Algo Picks
+                        Post an Offer or Event - Invest $299
                       </a>
                     </div>
                   </div>
@@ -161,6 +212,59 @@ export default function Home() {
       )}
     </Popover>
 
+
+
+    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
+    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">🐋 Creator Offers</h2>
+    <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 mb-2">
+        The Most Promoted Offers on BitClout
+    </p>
+
+    {isLoading && <p>Wait I'm loading offers for you</p>}
+
+    {offers.map((c, index) => (
+        <div key={index}>
+          { (
+            <>
+                <Row record={c} />
+            </>
+          )}
+        </div>
+      ))}
+
+    <div className="mt-8">
+        <a className="text-xl flex" href="/list">
+            <p>See all offers</p>
+            <ArrowRightIcon className="h-6 w-6 mt-1" aria-hidden="true"/></a>
+    </div>
+    </div>
+
+    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
+    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">🎟 Upcoming Creator Events</h2>
+    <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 mb-2">
+        The Biggest Upcoming Events on BitClout
+    </p>
+
+    {isLoading && <p>Wait I'm loading events for you</p>}
+
+    {events.map((c, index) => (
+        <div key={index}>
+          { (
+            <>
+              <Row record={c} />
+            </>
+          )}
+        </div>
+      ))}
+
+    <div className="mt-8">
+        <a className="text-xl flex" href="/calendar">
+            <p>See full calendar</p>
+            <ArrowRightIcon className="h-6 w-6 mt-1" aria-hidden="true"/></a>
+    </div>
+    </div>
+
+
     <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
         <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -176,18 +280,9 @@ export default function Home() {
               Add Offer or Event 
             </a>
           </div>
-          {/* <div className="ml-3 inline-flex rounded-md shadow">
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50"
-            >
-              Learn more
-            </a>
-          </div> */}
         </div>
       </div>
     </div>
-
     </Fragment>
   )
 }

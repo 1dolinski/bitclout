@@ -22,6 +22,8 @@ import Bot from "./Bot.js";
 
 const trackingId = "UA-145092910-3"; // Replace with your Google Analytics tracking ID
 ReactGA.initialize(trackingId);
+ReactGA.pageview(window.location.pathname + window.location.search);
+
 // ReactGA.set({
 //   userId: auth.currentUserId(),
 //   // any data that is relevant to the user session
