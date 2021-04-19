@@ -24,7 +24,7 @@ export default function Home() {
     useEffect(() => {
         base('List').select({
             // Selecting the first 3 records in @BitCloutOffers List:
-            maxRecords: 10,
+            maxRecords: 12,
             sort: [
                 {field: 'Highlight?', direction: 'desc'},
                 {field: 'Created At', direction: 'desc'}
@@ -54,7 +54,7 @@ export default function Home() {
       useEffect(() => {
         base('List').select({
             // Selecting the first 3 records in @BitCloutOffers List:
-            maxRecords: 10,
+            maxRecords: 12,
             sort: [
                 {field: 'Highlight?', direction: 'desc'},
                 {field: 'Calendar', direction: 'asc'}
@@ -240,7 +240,7 @@ export default function Home() {
     </div>
 
     <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
-    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">🎟 Upcoming Creator Events</h2>
+    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">🎟 Upcoming BitClout Events</h2>
     <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 mb-2">
         The Biggest Upcoming Events on BitClout
     </p>

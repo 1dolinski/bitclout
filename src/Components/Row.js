@@ -26,17 +26,16 @@ const typeColors =(type) => {
         Event: 'red',
         Contest: 'green',
         Interview: 'gray'
+    };
 
-    }
-
-    return types[type] || 'green'
-}
+    return types[type] || 'green';
+};
 
 export default function Row(props) {
     return  <Fragment><div className={`p-8 mt-4 ${props.record.get('Highlight?') ? 'bg-yellow-100' : 'border'}`}>
     
     <div className="flex">
-        <div class="flex-1">
+        <div className="flex-1">
             {props.record.get('Calendar') && 
                 <span className="bg-red-100 text-red-500 rounded font-bold p-1">{dateLabel(props.record)}</span>
             }
@@ -49,11 +48,11 @@ export default function Row(props) {
                 <a className="text-2xl font-semibold" href={props.record.get('URL')} target="_blank">{props.record.get('Title')} </a>
             </div>
             {props.record.get('Username (from Users)').map((username) => (
-                <span className="pr-2"><Tag name={username} color={"blue"} isAt/></span>
+                <span className="pr-2"><Tag name={username} tagColor="blue" isAt/></span>
             ))}
 
             {props.record.get('Type').map((type) => (
-                <span className="pr-2"><Tag name={type} color={typeColors(type)}/></span>
+                <span className="pr-2"><Tag name={type} tagColor={typeColors(type)}/></span>
             ))}
         </div>
 
