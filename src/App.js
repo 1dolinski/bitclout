@@ -19,6 +19,8 @@ import Home from "./Home.js";
 import List from "./List.js";
 import Calendar from "./Calendar.js";
 import Bot from "./Bot.js";
+import FeatureRequest from "./FeatureRequest.js";
+import EventStream from "./EventStream.js";
 
 const trackingId = "UA-145092910-3"; // Replace with your Google Analytics tracking ID
 ReactGA.initialize(trackingId);
@@ -53,8 +55,15 @@ export default function App() {
           <Route path="/bot">
             <Bot />
           </Route>
+          <Route path="/feature-requests">
+            <FeatureRequest />
+          </Route>
+          <Route path="/event-stream">
+            <EventStream />
+          </Route>
           <Route path="/">
-            <Home />
+            <Calendar />
+            {/* <Home /> */}
           </Route>
         </Switch>
       </div>

@@ -1,79 +1,11 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import { DateTime } from 'luxon';
+
 import Constants from './Constants'
 
-var Airtable = require('airtable');
-var base = new Airtable({apiKey: 'keyURduiO0k0SRGGY'}).base('appX3lOvCGm05jXmy');
 
-const greenColor ="text-green-500" // For production build
-const redColor ="text-red-500" // For production build
-
-function PickRow(props) {
-    const username = props.pick.fields["Username"];
-
-  const price_added = props.pick.fields['Price_Added'];
-  const current_price = props.pick.fields['Current_Price'];
-  const created_at = props.pick.fields['Created_at'];
-  const dollar_change = parseFloat(current_price) - parseFloat(price_added);
-  const pct_change = ((parseFloat(current_price)/parseFloat(price_added)) - 1) * 100;
-
-  var changeColor = dollar_change >= 0 ? "green": "red";
-
-  return (
-    <Fragment>
-      <div className={`flex p-8 mb-4 border text-xl font-bold`}>
-        <div class="flex-1">
-          <a href={`https://bitclout.com/u/${username}`} className="font-semibold">{username.toUpperCase()}</a>
-          <p className="text-gray-500 text-base">{DateTime.fromISO(created_at).toFormat('MMM dd H:mm')} EST @ ${price_added.toFixed(2)}</p>
-        </div>
-        <div className={`mr-16 text-base text-${changeColor}-500`}>
-        <p>{pct_change.toFixed(2)}%</p>
-        <p>${dollar_change.toFixed(2)}</p>
-        </div>
-        <p className={`text-${changeColor}-500`}>${current_price.toFixed(2)}</p>
-      </div>
-
-    </Fragment>
-  )
-}
-
-export default function Bot() {
-
-  const [page, setPage] = useState(1);
-  const [picks, setPicks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect(() => {
-      base('BitcloutBot').select({
-          // Selecting the first 3 records in @BitCloutOffers List:
-          maxRecords: 100,
-          sort: [
-              {field: 'Created_at', direction: 'desc'}
-          ],
-          view: "BotPickList"
-      }).eachPage(function page(records, fetchNextPage) {
-          // This function (`page`) will get called for each page of records.
-      
-          setPicks(records);
-          setIsLoading(false)
-          // records.forEach(function(record) {
-          //     console.log('Retrieved', record);
-          // });
-      
-          // To fetch the next page of records, call `fetchNextPage`.
-          // If there are more records, `page` will get called again.
-          // If there are no more records, `done` will get called.
-          fetchNextPage();
-      
-      }, function done(err) {
-          if (err) { console.error(err); return; }
-      });
-    }, [page]);
-
-
-
+export default function LuisBorges() {
   return (
     <Fragment>
     <Popover className="relative bg-white overflow-hidden">
@@ -172,11 +104,11 @@ export default function Bot() {
               <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                 <div className="sm:text-center lg:text-left">
                   <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                    <span className="block xl:inline">We Highlight Verified Creator Coins</span>{' '}
-                    <span className="block text-indigo-600 xl:inline">And Share Them With You</span>
+                    <span className="block xl:inline">Luis Borges Game</span>{' '}
+                    <span className="block text-indigo-600 xl:inline">We are destined to arrive</span>
                   </h1>
                   <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                    Our watching in the tall grass. When it finds a healthy creator, it pounces. This page shares our keep. 
+                  It also occurred to him that throughout history, humankind has told two stories: the story of a lost ship sailing the Mediterranean seas in quest of a beloved isle, and the story of a god who allows himself to be crucified on Golgotha
                   </p>
                 </div>
               </main>
@@ -185,33 +117,56 @@ export default function Bot() {
           <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
             <img
               className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-              src="https://images.unsplash.com/flagged/photo-1579225818168-858da8667fae?ixlib=rb-1.2.1&ixid=1zO4O3Z0UJA&auto=format&fit=crop&w=2850&q=80"
+              src="https://images.unsplash.com/photo-1521109464564-2fa2faa95858?ixlib=rb-1.2.1&ixid=1zO4O3Z0UJA&auto=format&fit=crop&w=2850&q=80"
               alt=""
             />
           </div>
         </>
       )}
     </Popover>
+    <div className="max-w-7xl mx-auto mt-16 mb-24">
+                        <p class="mb-2">This is not a hint.</p>
+                        <p class="mb-16">It is a list to help the BitClout community solve the puzzle.</p>
+        {
+          [
+            "lu1s",
+            "fr3d",
+            "m4rkus",
+            "m4ry",
+            "marv1n",
+            "da5id",
+            "luc1fer",
+            "lup1n",
+            "AD1L",
+            "kl4us",
+            "k3ys",
+            "r0nin",
+            "l0rd",
+            "mu1r",
+            "b00k",
+            "luc1",
+            "am3n",
+            "j4ne",
+            "D4NTE",
+            "BE4TRICE",
+            "d4wn",
+            "k3y",
+            "Dom1nic"
+          ].map(user => (
+            <h1 class="font-bold">
+              <a href={`https://www.bitclout.com/u/${user}`} class="underlined">@{user.toUpperCase()}</a>
+            </h1>
+            ))
+        }
 
-    <div className="max-w-7xl mx-auto mt-16">
-      
-      <p className="text-2xl font-bold mb-8">See The Bots Picks</p>
-    {isLoading && <p>Wait I'm loading the bot picks for you</p>}
 
-    {picks.map((c, index) => (
-        <div key={index}>
-          { (
-            <>
-              <PickRow pick={c} />
-            </>
-          )}
-        </div>
-      ))}
-      </div>
+        
 
-    
 
-    {/* <iframe className="airtable-embed" src="https://airtable.com/embed/shry9yR88eCGQsA6v?backgroundColor=cyan&viewControls=on" frameborder="0" onmousewheel="" width="100%" height="533" style={{"background": "transparent", "border": "1px solid #ccc"}}></iframe> */}
-    </Fragment>
+
+
+
+    </div>
+      </Fragment>
   )
 }
