@@ -18,7 +18,7 @@ const colorType6b="text-pink-500"
 
 export default function Tag(props) {
     return  <a href={`https://www.bitclout.com/u/${props.name}`} target="_blank"
-    className={`text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 rounded-full bg-${props.tagColor}-100 text-${props.tagColor}-500`}
+    className={`${props.class} text-xs inline-flex items-center font-bold leading-sm capitalize px-2 py-1 rounded-full bg-${props.tagColor}-100 text-${props.tagColor}-500 `}
   >
     {props.isAt ? "@" : ""}{props.name}
   </a>;

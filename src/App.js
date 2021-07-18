@@ -2,16 +2,11 @@
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 import ReactGA from 'react-ga';
-
-import logo from './bitcloutoffers.png';
-
 import { createBrowserHistory } from 'history';
-
 import './App.css';
 import './index.css';
 
@@ -21,6 +16,9 @@ import Calendar from "./Calendar.js";
 import Bot from "./Bot.js";
 import FeatureRequest from "./FeatureRequest.js";
 import EventStream from "./EventStream.js";
+import WatchList from "./WatchList.js";
+import Prices from "./Prices.js";
+import New from "./New.js";
 
 const trackingId = "UA-145092910-3"; // Replace with your Google Analytics tracking ID
 ReactGA.initialize(trackingId);
@@ -61,9 +59,18 @@ export default function App() {
           <Route path="/event-stream">
             <EventStream />
           </Route>
+          <Route path="/watchlist">
+            <WatchList />
+          </Route>
+          <Route path="/events/new">
+            <New />
+          </Route>
+          <Route path="/prices">
+            <Prices
+             />
+          </Route>
           <Route path="/">
-            <Calendar />
-            {/* <Home /> */}
+            <Home />
           </Route>
         </Switch>
       </div>

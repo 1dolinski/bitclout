@@ -10,7 +10,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import listPlugin from "@fullcalendar/list";
 import { DateTime } from 'luxon';
-import PremiumCode from './Components/PremiumCode';
+import Login from './Components/Login';
 
 if (!firebase.apps.length) {
   const firebaseApp = firebase.initializeApp(Constants.firebaseConfig);
@@ -133,7 +133,7 @@ export default function Calendar() {
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
 
       <div>
-        <PremiumCode />
+        <Login />
       </div>
 
       <FullCalendar

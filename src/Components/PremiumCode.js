@@ -12,7 +12,7 @@ export default function PremiumCode() {
           setPremiumAccess()
           
 
-          setTimeout(function(){ window.location.reload();; }, 5000);
+          setTimeout(function(){ window.location.reload(); }, 5000);
 
           alert("You have enabled the 💎 calendar! Please do not share the code.");
       } else {

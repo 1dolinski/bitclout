@@ -2,26 +2,31 @@
 import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/outline";
-import { DateTime } from "luxon";
+import dateFormatter from "../dateFormatter.js";
+import Tag from "./Tag.js";
 
 export default function Modal(props) {
   const cancelButtonRef = useRef();
 
-  let date;
-  if (props.event) {
-    date = DateTime.fromSeconds(props.event.DateValue.seconds).toLocaleString(
-      DateTime.TIME_SIMPLE
-    );
-    if (props.event.DateAllDay) {
-      date = "All-day"
-    }
-  } else {
-    date = "2;";
-  }
+  // let date;
+  // if (event) {
+  //   date = DateTime.fromSeconds(event.DateValue.seconds).toLocaleString(
+  //     DateTime.TIME_SIMPLE
+  //   );
+  //   if (event.DateAllDay) {
+  //     date = "All-day"
+  //   }
+  // } else {
+  //   date = "2;";
+  // }
+
+  let date = "2";
+
+  const { event } = props;
 
   return (
     <>
-      {props.event && (
+      {event && (
         <Transition.Root show={props.open} as={Fragment}>
           <Dialog
             as="div"
@@ -74,47 +79,76 @@ export default function Modal(props) {
                           as="h4"
                           className="text-md leading-6 font-bold text-red-700"
                         >
-                          {date}
+                          <div>
+                            {dateFormatter.dateValue(
+                              event.startTime,
+                              event.precision,
+                              "start"
+                            )}
+                            {event.endTime &&
+                              dateFormatter.dateValue(
+                                event.endTime,
+                                event.precision,
+                                "end"
+                              )}
+                          </div>
                         </Dialog.Title>
                         <Dialog.Title
                           as="h3"
                           className="text-lg leading-6 font-medium text-gray-900"
                         >
-                          {props.event.Title}
+                          {event.premium ? "💎" : ""} {event.title}
                         </Dialog.Title>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            {props.event.Description}
+                            {event.description}
                           </p>
+                          {(event.tags.length > 0 ||
+                            event.users.length > 0) && (
+                            <div class="flex">
+                              
+                              {event.tags.map((tag) => (
+                                <Tag
+                                  name={tag}
+                                  tagColor="blue"
+                                  class="text-xxs mr-1"
+                                />
+                              ))}
+                            </div>
+                          )}
 
                           <div class="flex mt-8 ">
                             <div class="flex">
                               <div
                                 class="w-24 h-24 max-w-xs rounded mr-2"
                                 style={{
-                                  "background-image": `url("${props.event.ProfileEntryResponse.ProfilePic}")`,
+                                  "background-image": `url("${event.post.data.ProfileEntryResponse.ProfilePic}")`,
+                                  backgroundSize: "cover",
                                 }}
                               ></div>
                               <div>
-                              <p>
-                                <a
-                                 class="font-bold"
-                                  target="_blank"
-                                  href={`https://wwww.bitclout.com/u/${props.event.ProfileEntryResponse.Username}`}
+                                <p>
+                                  <a
+                                    class="font-bold"
+                                    target="_blank"
+                                    href={`https://wwww.bitclout.com/u/${event.post.data.ProfileEntryResponse.Username}`}
                                   >
-                                  {props.event.ProfileEntryResponse.Username}
-                                </a>
+                                    {
+                                      event.post.data.ProfileEntryResponse
+                                        .Username
+                                    }
+                                  </a>
                                 </p>
-                                  <p>
-                                <a
-                                  class="text-sm underline"
-                                  target="_blank"
-                                  href={`https://www.bitclout.com/posts/${props.event.PostHashHex}`}
+                                <p>
+                                  <a
+                                    class="text-sm underline"
+                                    target="_blank"
+                                    href={`https://www.bitclout.com/posts/${event.post.data.PostHashHex}`}
                                   >
-                                  Original post
-                                </a>
-                                  </p>
-                                  </div>
+                                    Original post
+                                  </a>
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>

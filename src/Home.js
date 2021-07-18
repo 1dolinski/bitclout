@@ -1,131 +1,249 @@
-import { Fragment, useState, useEffect } from 'react'
-import { Popover, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon, ArrowRightIcon} from '@heroicons/react/outline'
-import Constants from './Constants'
-import Row from './Components/Row.js'
+import Modal from "./Components/Modal";
 
+import { Fragment, useState, useEffect } from "react";
+import { ArrowRightIcon } from "@heroicons/react/outline";
+import EventRow from "./Components/EventRow.js";
+import Constants from "./Constants";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import { DateTime } from "luxon";
+import PremiumCode from "./Components/PremiumCode";
+import Sponsors from "./Components/Sponsors";
+import Login from "./Components/Login";
+import EventSection from "./Components/EventSection";
 import Header from "./Header.js";
+import { get, useForm } from "react-hook-form";
+import api from "./api.js";
 
+const fetch = require("node-fetch");
 
+if (!firebase.apps.length) {
+  const firebaseApp = firebase.initializeApp(Constants.firebaseConfig);
+} else {
+  firebase.app(); // if already initialized, use that one
+}
+const hasPremiumAccess = () =>
+  localStorage.getItem("bitcloutoffersPremiumCalendar") === "DiamondCalendar";
 
-var Airtable = require('airtable');
-var base = new Airtable({apiKey: 'keyURduiO0k0SRGGY'}).base('appX3lOvCGm05jXmy');
+const db = firebase.firestore();
+{
+  /* */
+}
+function renderEventContent(info) {
+  var isPremium = info.event.extendedProps.premium === 1;
+
+  var date = DateTime.fromSeconds(info.event.extendedProps.DateValue.seconds)
+    .toLocaleString(DateTime.TIME_SIMPLE)
+    .replace(" ", "")
+    .replace(":00", "")
+    .toLowerCase();
+
+  if (info.event.extendedProps.DateAllDay) {
+    date = undefined;
+  }
+
+  if (isPremium) {
+    return (
+      <div class="overflow-x-hidden">
+        <div class="text-xs">
+          💎 {date}{" "}
+          <b>
+            {hasPremiumAccess()
+              ? info.event.extendedProps.Title
+              : "**Requires Diamond Passcode"}
+          </b>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div class="overflow-x-hidden">
+        <div class="text-xs">
+          {date} <b>{info.event.extendedProps.Title}</b>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default function Home() {
+  const [modal, setModal] = useState(false);
+  const [exchangeRate, setExchangeRate] = useState(false);
+  const [event, setEvent] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
-    const [page, setPage] = useState(1);
-    const [offers, setOffers] = useState([]);
-    const [events, setEvents] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.setAttribute("embedclout", "bitcloutoffers");
+    script.setAttribute("template", "light");
+    script.setAttribute("position", "default");
+    script.setAttribute("size", "detailed");
+    script.src = "https://www.embedclout.com/badge/badge.js";
+
+    document.querySelector("#embed").appendChild(script);
+  }, []);
+
+  const fetchToday = async () => {
+    // let start = new Date("2021-05-16 12:01");
+    // let end = new Date("2021-05-19 12:00");
+
+    let start = DateTime.now().startOf('day').toJSDate();
+    let end = DateTime.now().endOf('day').plus({days: 2}).toJSDate();
+
+    let response = db
+      .collection("events")
+      .where("verified", "==", 1)
+      .where("DateValue", ">=", start)
+      .where("DateValue", "<", end)
+      .limit(100);
+
     
-    useEffect(() => {
-      const script = document.createElement('script');
-      script.setAttribute('embedclout', 'bitcloutoffers')
-      script.setAttribute('template', 'light')
-      script.setAttribute('position', 'default')
-      script.setAttribute('size', 'detailed')
-      script.src = 'https://www.embedclout.com/badge/badge.js'
-    
-      document.querySelector('#embed').appendChild(script);
-    }, [])
+    const data = await response.get();
+    const results = data.docs.map((item) => item.data());
 
+    console.log("hi", results[0].DateValue.toDate());
 
-    useEffect(() => {
-        base('List').select({
-            // Selecting the first 3 records in @BitCloutOffers List:
-            maxRecords: 12,
-            sort: [
-                {field: 'Highlight?', direction: 'desc'},
-                {field: 'Created At', direction: 'desc'}
-            ],
-            filterByFormula: "NOT({Calendar})",
-            view: "@BitCloutOffers List"
-        }).eachPage(function page(records, fetchNextPage) {
-            // This function (`page`) will get called for each page of records.
-        
-            console.log(records);
-            setOffers(records);
-            setIsLoading(false)
-            // records.forEach(function(record) {
-            //     console.log('Retrieved', record);
-            // });
-        
-            // To fetch the next page of records, call `fetchNextPage`.
-            // If there are more records, `page` will get called again.
-            // If there are no more records, `done` will get called.
-            fetchNextPage();
-        
-        }, function done(err) {
-            if (err) { console.error(err); return; }
-        });
-      }, [page]);
+    // setToday(results);
+    setIsLoading(false);
+  };
 
-      useEffect(() => {
-        base('List').select({
-            // Selecting the first 3 records in @BitCloutOffers List:
-            maxRecords: 12,
-            sort: [
-                {field: 'Highlight?', direction: 'desc'},
-                {field: 'Calendar', direction: 'asc'}
-            ],
-            filterByFormula: "{Calendar} > DATEADD(Today(),-1,'days')",
-            view: "@BitCloutOffers List"
-        }).eachPage(function page(records, fetchNextPage) {
-            // This function (`page`) will get called for each page of records.
-        
-            console.log(records);
-            setEvents(records);
-            setIsLoading(false)
-            // records.forEach(function(record) {
-            //     console.log('Retrieved', record);
-            // });
-        
-            // To fetch the next page of records, call `fetchNextPage`.
-            // If there are more records, `page` will get called again.
-            // If there are no more records, `done` will get called.
-            fetchNextPage();
-        
-        }, function done(err) {
-            if (err) { console.error(err); return; }
-        });
-      }, [page]);
+  const fetchExchangeRate = async () => {
+    console.log("getting exchange rate");
+    const rate = await api.getExchangeRate;
+    setExchangeRate(rate)
+  }
+
+  useEffect(async () => {
+    fetchExchangeRate();
+    // fetchToday();
+
+    // fetchTomorrow();
+  }, []);
 
   return (
-      <Fragment>
+    <Fragment>
+      <Modal open={modal} close={() => setModal(false)} event={event}/>
 
-<Header
-        title="The Biggest BitClout"
-        subtitle="Events and Offers"
-        description="Find what clouters are doing and what they're offering. Our algorithm searches high and low for valuable coins"
+      <Header
+        title="Jump Into Your Next"
+        subtitle="BitClout Event"
+        description="Jamclouts, NFT Giveaways, Discord conversations. Our AI algorithm searches the blockchain posts and turns them into events."
         unsplashId="photo-1616635460792-0c6ff749d56a"
       />
 
-    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
-    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">🎟 Upcoming BitClout Events</h2>
-    <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 mb-2">
-        The Biggest Upcoming Events on BitClout
-    </p>
 
-    {isLoading && <p>Wait I'm loading events for you</p>}
+    {/* queryString={`type=ongoing&users[]=1dolinski&users[]=jakeudell&startTime=>${encodeURI(new Date())}`} */}
+{/* <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"> */}
 
-    {events.map((c, index) => (
-        <div key={index}>
-          { (
-            <>
-              <Row record={c} />
-            </>
-          )}
+<div class="mt-16">
+          <Login />
         </div>
-      ))}
 
-    <div className="mt-8">
-        <a className="text-xl flex" href="/calendar">
-            <p>See full calendar</p>
-            <ArrowRightIcon className="h-6 w-6 mt-1" aria-hidden="true"/></a>
-    </div>
-    </div>
+    <div class="grid sm:grid-cols-1 lg:grid-cols-2 mt-16 gap-4">
+      <div class="">
+        <EventSection 
+          title="Ongoing"
+          type="ongoing"
+          queryString={`type=ongoing`}
+          setEvent={(event) => {
+            setEvent(event)
+            setModal(true)
+          }}
+          exchangeRate={exchangeRate}
+          />
+          </div>
+          <div>
 
-    {/* <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
+      <EventSection 
+            title="Upcoming"
+            type="upcoming"
+            queryString={`type=upcoming`}
+            setEvent={(event) => {
+              setEvent(event)
+              setModal(true)
+            }}
+            exchangeRate={exchangeRate}
+            />
+            </div>
+    </div>
+{/* </div> */}
+
+  <div class="grid grid-cols-12 gap-1 mt-24">
+        <div class="col-span-12">
+        <EventSection 
+          title="Ended"
+          type="ended"
+          queryString={`type=ended`}
+          setEvent={(event) => {
+            setEvent(event)
+            setModal(true)
+          }}
+          exchangeRate={exchangeRate}
+        />
+    </div>
+  </div>
+
+<div className="bg-gray-50 mt-16">
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+          <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            <span className="block">Do You Have an Offer or Event?</span>
+            <span className="block text-indigo-600">Add it to the List</span>
+          </h2>
+          <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+            <div className="inline-flex rounded-md shadow">
+              <a
+                href="https://bitcloutoffers.com/events/new"
+                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+              >
+                Add Offer or Event
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
+        {/* <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          🎟 Upcoming BitClout Events
+        </h2> */}
+
+
+
+        {/* {isLoading && <p>Wait I'm loading events for you</p>} */}
+
+          {/* {today.map((c, index) => (
+            <div key={index}>
+              {
+                <>
+                    <EventRow
+                      premium={c.premium == 1}
+                      allDay={c.DateAllDay}
+                      dateValue={DateTime.fromJSDate(
+                        c.DateValue.toDate()
+                      ).toSeconds()}
+                      timeZone={"America/New_York"}
+                      url={`https://www.bitclout.com/posts/${c.PostHashHex}`}
+                      title={c.Title}
+                      createdAt={DateTime.fromJSDate(
+                        c.UpdatedAt.toDate()
+                      ).toSeconds()}
+                      profilePic={c.ProfileEntryResponse.ProfilePic}
+                      username={c.ProfileEntryResponse.Username}
+                    />
+                </>
+              }
+            </div>
+          ))} */}
+
+        <div className="mt-8">
+          <a className="text-xl flex" href="/calendar">
+            <p class="underline">More events - see the full calendar</p>
+            <ArrowRightIcon className="h-6 w-6 mt-1" aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+
+      {/* <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
     <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">🐋 Creator Offers</h2>
     <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 mb-2">
         The Most Promoted Offers on BitClout
@@ -152,30 +270,10 @@ export default function Home() {
 
 
 
-
-    <div className="bg-gray-50">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-        <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          <span className="block">Do You Have an Offer or Event?</span>
-          <span className="block text-indigo-600">Add it to the List</span>
-        </h2>
-        <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-          <div className="inline-flex rounded-md shadow">
-            <a
-              href="https://airtable.com/shrCuDoIrnE4wNPyf" target="_blank"
-              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-            >
-              Add Offer or Event 
-            </a>
-          </div>
-        </div>
+      <Sponsors />
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-left">
+        <div id="embed"></div>
       </div>
-    </div>
-
-    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-left">
-      <div id="embed"></div>
-    </div>
-
     </Fragment>
-  )
+  );
 }
