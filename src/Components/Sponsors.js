@@ -24,18 +24,18 @@ export default function Sponsors() {
           hodlrs.Hodlers.slice(1, 10).map((hodlr) => <div>
             <div className="font-semibold inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 w-full">
               <a
-                href={`https://www.bitclout.com/u/${hodlr.ProfileEntryResponse.Username}`}
+                href={`https://www.bitclout.com/u/${hodlr.ProfileEntryResponse ? hodlr.ProfileEntryResponse.Username : 'bitcloutoffers'}`}
                 target="_blank"
                 className=""
               >
                      <div
                         class="w-24 h-24 max-w-xs rounded mr-2"
                         style={{
-                          "background-image": `url("${hodlr.ProfileEntryResponse.ProfilePic}")`,
+                          "background-image": `url("${hodlr.ProfileEntryResponse ? hodlr.ProfileEntryResponse.ProfilePic : ''}")`,
                           backgroundSize: "cover",
                         }}
                       ></div>
-                {hodlr.ProfileEntryResponse.Username}
+                {hodlr.ProfileEntryResponse ? hodlr.ProfileEntryResponse.Username : ""}
               </a>
             </div>
           </div>)}
