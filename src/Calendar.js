@@ -3,7 +3,7 @@ import { React, Fragment, useState, useEffect, useCallback} from "react";
 import Header from "./Header.js";
 import Modal from "./Components/Modal";
 import Constants from "./Constants";
-import firebase from "firebase/app";
+import firebase from 'firebase/compat/app';
 import "firebase/firestore";
 
 import FullCalendar from "@fullcalendar/react";

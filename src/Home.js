@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from "react";
 import { ArrowRightIcon } from "@heroicons/react/outline";
 import EventRow from "./Components/EventRow.js";
 import Constants from "./Constants";
-import firebase from "firebase/app";
+import firebase from 'firebase/compat/app';
 import "firebase/firestore";
 import { DateTime } from "luxon";
 import PremiumCode from "./Components/PremiumCode";

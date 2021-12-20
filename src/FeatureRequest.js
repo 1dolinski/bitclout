@@ -6,7 +6,7 @@ import FeatureRequestRow from "./Components/FeatureRequestRow.js";
 
 import { FirebaseDatabaseProvider } from "@react-firebase/database";
 
-import firebase from "firebase/app";
+import firebase from 'firebase/compat/app';
 import "firebase/auth";
 import {
   FirebaseAuthProvider,

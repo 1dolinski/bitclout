@@ -8,7 +8,7 @@ import api from "./api.js";
 import precision from "./precision";
 
 import Constants from "./Constants";
-import firebase from "firebase/app";
+import firebase from 'firebase/compat/app';
 
 import { FirebaseDatabaseProvider } from "@react-firebase/database";
 
