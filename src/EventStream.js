@@ -12,14 +12,14 @@ import firebase from 'firebase/compat/app';
 
 import { FirebaseDatabaseProvider } from "@react-firebase/database";
 
-import "firebase/auth";
+import "firebase/compact/auth";
 import {
   FirebaseAuthProvider,
   FirebaseAuthConsumer,
   IfFirebaseAuthed,
   IfFirebaseAuthedAnd,
 } from "@react-firebase/auth";
-import "firebase/firestore";
+import "firebase/compact/firestore";
 import dateFormatter from "./dateFormatter.js";
 
 

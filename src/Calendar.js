@@ -4,7 +4,7 @@ import Header from "./Header.js";
 import Modal from "./Components/Modal";
 import Constants from "./Constants";
 import firebase from 'firebase/compat/app';
-import "firebase/firestore";
+import "firebase/compact/firestore";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";

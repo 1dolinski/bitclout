@@ -2,7 +2,7 @@ import { Fragment } from "react";
 
 import { ThumbUpIcon } from "@heroicons/react/outline";
 
-import "firebase/database";
+import "firebase/compact/database";
 import {
   FirebaseDatabaseNode,
   FirebaseDatabaseTransaction,

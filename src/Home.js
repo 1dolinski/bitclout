@@ -5,7 +5,7 @@ import { ArrowRightIcon } from "@heroicons/react/outline";
 import EventRow from "./Components/EventRow.js";
 import Constants from "./Constants";
 import firebase from 'firebase/compat/app';
-import "firebase/firestore";
+import "firebase/compact/firestore";
 import { DateTime } from "luxon";
 import PremiumCode from "./Components/PremiumCode";
 import Sponsors from "./Components/Sponsors";
