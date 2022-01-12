@@ -12,14 +12,14 @@ import firebase from 'firebase/compat/app';
 
 import { FirebaseDatabaseProvider } from "@react-firebase/database";
 
-import "firebase/compact/auth";
+import "firebase/compat/auth";
 import {
   FirebaseAuthProvider,
   FirebaseAuthConsumer,
   IfFirebaseAuthed,
   IfFirebaseAuthedAnd,
 } from "@react-firebase/auth";
-import "firebase/compact/firestore";
+import "firebase/compat/firestore";
 import dateFormatter from "./dateFormatter.js";
 
 
@@ -85,7 +85,8 @@ export default function EventStream() {
   const fetchEvents = async (username) => {
     console.log('getting events?');
     // const results = await api.getEvents(`verified=3&post.data.ProfileEntryResponse.CoinPriceBitCloutNanos=>1441000000&startTime=>${new Date()}&startTime=<${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}`);
-    const results = await api.getEvents(`verified=3&post.data.ProfileEntryResponse.CoinPriceBitCloutNanos=>1041000000&startTime=>${new Date()}&startTime=<${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}`);
+    // const results = await api.getEvents(`verified=3&post.data.ProfileEntryResponse.CoinPriceBitCloutNanos=>1041000000&startTime=>${new Date()}&startTime=<${new Date(new Date().setFullYear(new Date().getFullYear() + 1))}`);
+    const results = await api.getEvents(`verified=3`);
     // const results = await api.getEvents("type=ongoing");
     console.log('seting events', results);
     setEvents(results);
@@ -189,6 +190,11 @@ export default function EventStream() {
                   const value = val.target.value;
                   setEvent(event._id, "description", value)
                   }} placeholder={event.description || "Description"} />
+                </div>
+
+                                <div class="flex">
+                <p class="mr-2 font-bold w-32">Created Details:</p>
+                  {event.createdDetails || ""}
                 </div>
 
 

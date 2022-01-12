@@ -105,7 +105,7 @@ export default function Login() {
     
     return (
         <Fragment>
-            <iframe id="identity" frameborder="0" class="" src="https://identity.bitclout.com/embed?v=2" style={{"display": "none"}}></iframe>
+            <iframe id="identity" frameborder="0" src="https://identity.bitclout.com/embed?v=2" style={{"display": "none"}}></iframe>
 
             {
                 currentUser ? isUserAHolder() ? 

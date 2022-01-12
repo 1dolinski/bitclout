@@ -3,8 +3,8 @@ import { React, Fragment, useState, useEffect, useCallback} from "react";
 import Header from "./Header.js";
 import Modal from "./Components/Modal";
 import Constants from "./Constants";
-import firebase from 'firebase/compat/app';
-import "firebase/compact/firestore";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";

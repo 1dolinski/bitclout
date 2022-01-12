@@ -97,10 +97,11 @@ export default function Modal(props) {
                           as="h3"
                           className="text-lg leading-6 font-medium text-gray-900"
                         >
-                          {event.premium ? "💎" : ""} {event.title}
+                          {/* {event.premium ? "💎" : ""} */}
+                          {event.title}
                         </Dialog.Title>
                         <div className="mt-2">
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-500 mb-4">
                             {event.description}
                           </p>
                           {(event.tags.length > 0 ||
@@ -119,13 +120,20 @@ export default function Modal(props) {
 
                           <div class="flex mt-8 ">
                             <div class="flex">
-                              <div
+                              {/* <div
                                 class="w-24 h-24 max-w-xs rounded mr-2"
                                 style={{
                                   "background-image": `url("${event.post.data.ProfileEntryResponse.ProfilePic}")`,
                                   backgroundSize: "cover",
                                 }}
-                              ></div>
+                              ></div> */}
+                                                    <div
+                        class="h-16 w-16 max-w-xs max-h-xs rounded mr-2 inline-block align-middle	"
+                        style={{
+                          backgroundImage: `url("https://bitclout.com/api/v0/get-single-profile-picture/${event.post.data["ProfileEntryResponse"]["PublicKeyBase58Check"]}?fallback=https://bitclout.com/assets/img/default_profile_pic.png")`,
+                          backgroundSize: "cover",
+                        }}
+                      ></div>
                               <div>
                                 <p>
                                   <a

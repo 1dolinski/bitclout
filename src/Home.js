@@ -4,8 +4,10 @@ import { Fragment, useState, useEffect } from "react";
 import { ArrowRightIcon } from "@heroicons/react/outline";
 import EventRow from "./Components/EventRow.js";
 import Constants from "./Constants";
+// import { initializeApp } from 'firebase/app'
+
 import firebase from 'firebase/compat/app';
-import "firebase/compact/firestore";
+import "firebase/compat/firestore";
 import { DateTime } from "luxon";
 import PremiumCode from "./Components/PremiumCode";
 import Sponsors from "./Components/Sponsors";
@@ -22,6 +24,9 @@ if (!firebase.apps.length) {
 } else {
   firebase.app(); // if already initialized, use that one
 }
+
+// const firebaseAp = initializeApp(Constants.firebaseConfig);
+
 const hasPremiumAccess = () =>
   localStorage.getItem("bitcloutoffersPremiumCalendar") === "DiamondCalendar";
 
@@ -72,16 +77,16 @@ export default function Home() {
   const [event, setEvent] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.setAttribute("embedclout", "bitcloutoffers");
-    script.setAttribute("template", "light");
-    script.setAttribute("position", "default");
-    script.setAttribute("size", "detailed");
-    script.src = "https://www.embedclout.com/badge/badge.js";
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+  //   script.setAttribute("embedclout", "bitcloutoffers");
+  //   script.setAttribute("template", "light");
+  //   script.setAttribute("position", "default");
+  //   script.setAttribute("size", "detailed");
+  //   script.src = "https://www.embedclout.com/badge/badge.js";
 
-    document.querySelector("#embed").appendChild(script);
-  }, []);
+  //   document.querySelector("#embed").appendChild(script);
+  // }, []);
 
   const fetchToday = async () => {
     // let start = new Date("2021-05-16 12:01");
@@ -126,18 +131,39 @@ export default function Home() {
 
       <Header
         title="Jump Into Your Next"
-        subtitle="BitClout Event"
-        description="Jamclouts, NFT Giveaways, Discord conversations. Our AI algorithm searches the blockchain posts and turns them into events."
-        unsplashId="photo-1616635460792-0c6ff749d56a"
+        subtitle="DeSo Event"
+        description="DeSo Annoucements, NFT Giveaways, CloutVid Happy Hours, Discord Conversations. Find the top trending DeSo events here."
+        unsplashId="photo-1534484374439-6b8cd79be97c"
       />
 
 
     {/* queryString={`type=ongoing&users[]=1dolinski&users[]=jakeudell&startTime=>${encodeURI(new Date())}`} */}
 {/* <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"> */}
 
-<div class="mt-16">
-          <Login />
+<div class="mt-16 flex justify-between">
+          {/* <Login /> */}
+<div>
+  </div><div >
+
+<a
+        href="https://bitcloutoffers.web.app/events/new"
+        className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+        >
+        Submit a DeSo Event 
+      </a>
+
+      <a
+        href="https://bitcloutoffers.herokuapp.com/events.ics"
+        className="inline-flex items-center justify-center ml-4 px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+        >
+        Subscribe to Calendar 🗓
+      </a>
+      
+
+
+</div>
         </div>
+
 
     <div class="grid sm:grid-cols-1 lg:grid-cols-2 mt-16 gap-4">
       <div class="">
@@ -192,10 +218,10 @@ export default function Home() {
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
             <div className="inline-flex rounded-md shadow">
               <a
-                href="https://bitcloutoffers.com/events/new"
+                href="https://bitcloutoffers.web.app/events/new"
                 className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
               >
-                Add Offer or Event
+                Add DeSo Event
               </a>
             </div>
           </div>
@@ -234,13 +260,13 @@ export default function Home() {
               }
             </div>
           ))} */}
-
+{/* 
         <div className="mt-8">
           <a className="text-xl flex" href="/calendar">
             <p class="underline">More events - see the full calendar</p>
             <ArrowRightIcon className="h-6 w-6 mt-1" aria-hidden="true" />
           </a>
-        </div>
+        </div> */}
       </div>
 
       {/* <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
@@ -271,9 +297,9 @@ export default function Home() {
 
 
       {/* <Sponsors /> */}
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-left">
+      {/* <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-left">
         <div id="embed"></div>
-      </div>
+      </div> */}
     </Fragment>
   );
 }

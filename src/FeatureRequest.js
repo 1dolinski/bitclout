@@ -7,14 +7,15 @@ import FeatureRequestRow from "./Components/FeatureRequestRow.js";
 import { FirebaseDatabaseProvider } from "@react-firebase/database";
 
 import firebase from 'firebase/compat/app';
-import "firebase/compact/auth";
+import "firebase/compat/auth";
+
 import {
   FirebaseAuthProvider,
   FirebaseAuthConsumer,
   IfFirebaseAuthed,
   IfFirebaseAuthedAnd,
 } from "@react-firebase/auth";
-import "firebase/compact/firestore";
+import "firebase/compat/firestore";
 
 import Constants from "./Constants";
 

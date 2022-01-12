@@ -2,7 +2,7 @@ import { React, Fragment, useState, useEffect, useCallback } from "react";
 import { DateTime } from "luxon";
 import Constants from "./Constants";
 import firebase from 'firebase/compat/app';
-import "firebase/compact/firestore";
+import "firebase/compat/firestore";
 
 import Header from "./Header.js";
 

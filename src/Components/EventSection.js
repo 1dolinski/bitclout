@@ -3,6 +3,7 @@ import api from "../api.js";
 import dateFormatter from "../dateFormatter";
 import Tag from "./Tag.js";
 import { DateTime } from "luxon";
+import { CalendarIcon } from '@heroicons/react/outline'
 
 const endedHeaders = () => (
   <Fragment>
@@ -20,6 +21,26 @@ const headers = (opts = {}) => (
     <th class="w-1/6 text-right">Details</th>
   </Fragment>
 );
+
+const addToGCal = (event) => {
+
+  const baseUrl = 'http://www.google.com/calendar/event';
+  const url = new URL(baseUrl);
+  url.searchParams.set('action', "TEMPLATE");
+  url.searchParams.set('dates', `${new Date(event.startTime).toISOString().replace(/\-|\.|\:/g, "")}/${new Date(event.startTime).toISOString().replace(/\-|\.|\:/g, "")}`);
+  url.searchParams.set('details', event.description);
+  url.searchParams.set('text', event.title);
+
+  // 20210607T170000Z
+  // 20220126T180000Z
+
+  console.log(url, event);
+  // http://www.google.com/calendar/event?action=TEMPLATE&dates=20220422%2F20220423&details=This+event+has+been+added+from+usehappen.com+-+Apr+22%2C+2022&location=&text=The+Batman+-+DC+FanDome+Teaser+-+YouTube
+
+  return <a target="_blank" href={url}>
+    +🗓
+  </a>
+}
 
 function endedRows(event) {}
 
@@ -60,7 +81,6 @@ export default function EventSection(props) {
 
   return (
     <Fragment>
-      <div></div>
 
       <div class="font-bold text-2xl mb-4">{title}</div>
       <table class="table-fixed text-xs mb-16">
@@ -73,6 +93,7 @@ export default function EventSection(props) {
         </thead>
         <tbody>
           {data &&
+
             data.map((event) => (
               <tr>
                 <td>
@@ -80,10 +101,12 @@ export default function EventSection(props) {
                     <a
                       href={`https://www.bitclout.com/u/${event.post.data["ProfileEntryResponse"]["Username"]}`}
                     >
+
+                      
                       <div
                         class="h-10 w-10 max-w-xs max-h-xs rounded mr-2 inline-block align-middle	"
                         style={{
-                          backgroundImage: `url("${event.post.data["ProfileEntryResponse"]["ProfilePic"]}")`,
+                          backgroundImage: `url("https://bitclout.com/api/v0/get-single-profile-picture/${event.post.data["ProfileEntryResponse"]["PublicKeyBase58Check"]}?fallback=https://bitclout.com/assets/img/default_profile_pic.png")`,
                           backgroundSize: "cover",
                         }}
                       ></div>
@@ -95,7 +118,7 @@ export default function EventSection(props) {
                         href={`https://www.bitclout.com/posts/${event.post.data.PostHashHex}`}
                       >
                         <div class="font-semibold">
-                          {event.premium ? "💎" : ""}
+                          {/* {event.premium ? "💎" : ""} */}
                           {event.title}
                         </div>
                       </a>
@@ -152,6 +175,13 @@ export default function EventSection(props) {
                 )}
 
                 <td class="text-right">
+                  { type == "upcoming" &&
+                <div
+                    className="inline-flex items-center justify-center mr-2 px-2 py-1 border border-transparent font-xs font-bold rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  >
+                    { addToGCal(event) }
+                  </div>
+                  }
                   <div
                     className="inline-flex items-center justify-center px-2 py-1 border border-transparent font-xs font-bold rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
                     onClick={() => setEvent(event)}

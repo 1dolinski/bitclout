@@ -1,7 +1,7 @@
 import { React, Fragment, useState, useEffect, useCallback } from "react";
 import { get, useForm } from "react-hook-form";
 import { DateTime } from "luxon";
-import "firebase/compact/firestore";
+import "firebase/compat/firestore";
 
 import Header from "./Header.js";
 
