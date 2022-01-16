@@ -143,6 +143,10 @@ export default function Home() {
 <div class="mt-16 flex justify-between">
           {/* <Login /> */}
 <div>
+
+<img alt="Change Profile Photo" class="be6sR" src="https://instagram.fyto3-1.fna.fbcdn.net/v/t51.2885-19/s320x320/15875662_1384918811518795_3489253030660931584_n.jpg"></img>
+
+
   </div><div >
 
 <a
@@ -153,7 +157,7 @@ export default function Home() {
       </a>
 
       <a
-        href="https://bitcloutoffers.herokuapp.com/events.ics"
+        href="https://firebasestorage.googleapis.com/v0/b/bitcloutoffers.appspot.com/o/events.ics?alt=media"
         className="inline-flex items-center justify-center ml-4 px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
         >
         Subscribe to Calendar 🗓
