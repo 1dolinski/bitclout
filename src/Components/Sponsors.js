@@ -17,7 +17,7 @@ export default function Sponsors() {
     <Fragment>
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:items-center lg:justify-between">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-          Live @BitCloutOffers Investors 💜
+          Live @EventSo Investors 💜
         </h2>
         <div class="grid grid-cols-3 gap-4 mt-8">
         {hodlrs.Hodlers &&

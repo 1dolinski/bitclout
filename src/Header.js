@@ -32,7 +32,7 @@ export default function Header(props) {
                             <span className="sr-only">Workflow</span>
                             <img
                               className="h-8 w-auto sm:h-10"
-                              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                              src="../logo512.png"
                             />
                           </a>
                           <div className="-mr-2 flex items-center md:hidden">
@@ -106,7 +106,7 @@ export default function Header(props) {
                     </Popover.Panel>
                   </Transition>
 
-                  <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                  <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-12 lg:px-12 xl:mt-12">
                     <div className="sm:text-center lg:text-left">
                       <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                         <span className="block xl:inline">
@@ -125,7 +125,7 @@ export default function Header(props) {
               </div>
               <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
                 <img
-                  className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
+                  className="h-56 w-full object-cover sm:h-72 md:h-72 lg:w-full lg:h-72"
                   src={`https://images.unsplash.com/${props.unsplashId}?ixlib=rb-1.2.1&ixid=1zO4O3Z0UJA&auto=format&fit=crop&w=2850&q=80`}
                   alt=""
                 />

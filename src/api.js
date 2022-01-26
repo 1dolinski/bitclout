@@ -129,5 +129,22 @@ export default {
       body: JSON.stringify(data),
       method: "POST",
     }).then((res) => res.json())
+  },
+  submitCommunityPost: (data) => {
+    // return fetch(`http://localhost:5001/bitcloutoffers/us-central1/submitPostHash?test=1`, {
+      // return fetch(`http://localhost:5000/api/events/community-posted`, {
+      return fetch(`${API}/api/events/community-posted`, {
+      headers: {
+        accept: "application/json, text/plain, */*",
+        "accept-language": "en-US,en;q=0.9",
+        "content-type": "application/json",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+      },
+      mode: "cors",
+      // referrerPolicy: "origin",
+      body: JSON.stringify(data),
+      method: "POST",
+    }).then((res) => res.json())
   }
 };

@@ -132,7 +132,7 @@ export default function Home() {
       <Header
         title="Jump Into Your Next"
         subtitle="DeSo Event"
-        description="DeSo Annoucements, NFT Giveaways, CloutVid Happy Hours, Discord Conversations. Find the top trending DeSo events here."
+        description="DeSo Annoucements, NFT Giveaways, Vibehut Happy Hours, Discord Conversations. Find the top trending DeSo events here."
         unsplashId="photo-1534484374439-6b8cd79be97c"
       />
 
@@ -140,12 +140,9 @@ export default function Home() {
     {/* queryString={`type=ongoing&users[]=1dolinski&users[]=jakeudell&startTime=>${encodeURI(new Date())}`} */}
 {/* <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"> */}
 
-<div class="mt-16 flex justify-between">
+<div class="flex justify-between">
           {/* <Login /> */}
 <div>
-
-<img alt="Change Profile Photo" class="be6sR" src="https://instagram.fyto3-1.fna.fbcdn.net/v/t51.2885-19/s320x320/15875662_1384918811518795_3489253030660931584_n.jpg"></img>
-
 
   </div><div >
 

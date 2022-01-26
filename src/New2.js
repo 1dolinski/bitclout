@@ -37,7 +37,7 @@ export default function New() {
           setLoading(true);
 
           try {
-            const post = await api.submitCommunityPost(data);
+            const post = await api.submitPost(data);
 
             console.log(post);
 
@@ -62,59 +62,33 @@ export default function New() {
     <Fragment>
         
         <Header
-            title="Add Your Event"
-            subtitle="to the DeSo List"
-            description="Our community backed list of DeSo events"
+            title="Turn Your Post"
+            subtitle="Into an Event"
+            description="Enter your post hash, look it over and create your event!"
             unsplashId="photo-1505373877841-8d25f7d46678"
         />
 
-        <div class="mt-8 font-bold text-xl">Submit a DeSo Event</div>
-        <div class="text-xl mb-8">All posts must have an associated on-chain post</div>
+        <div class="mt-8 font-bold text-xl">Submit your Post, We'll Turn it Into An Event</div>
 
         <form
             class="grid grid-cols-4 gap-2 mt-4"
             onSubmit={handleSubmit(onSubmit)}
           >
             
-          <label name="title" class="col-span-1">Title</label>
-          <input
-              placeholder="Your event name..."
-              class="col-span-3 border inline-flex items-center justify-center px-5 py-3 border border-indigo text-base font-medium rounded-md text-indigo"
-              type="input"
-              {...register("title", { required: true })}
-            />
-
-
-          <label name="Description" class="col-span-1">Description</label>
-          <textarea
-              placeholder="What's it about?"
-              class="col-span-3 border inline-flex items-center justify-center px-5 py-3 border border-indigo text-base font-medium rounded-md text-indigo"
-              type="textarea"
-              {...register("description", { required: true })}
-          />
-
-          <label name="Description" class="col-span-1">Deso PostHex</label>
-          <input
-              placeholder="The post ID. BitClout.com/posts/*** this value here ***, it's long"
+            <label name="postHash" class="col-span-1">DeSo Post Hash</label>
+            <input
+              placeholder="Paste Your Post Hash"
               class="col-span-3 border inline-flex items-center justify-center px-5 py-3 border border-indigo text-base font-medium rounded-md text-indigo"
               type="input"
               {...register("postHash", { required: true })}
-          />
-          <label name="startTime" class="col-span-1">Start Date and Time</label>
-          <div class="col-span-2"></div>
-          <input
-              class="col-span-1 border px-5 py-3 border border-indigo text-base font-medium rounded-md text-indigo"
-              type="datetime-local"
-              {...register("startTime", { required: true })}
-          />
-          <label name="tags" class="col-span-1">Tags</label>
-          <input
-              placeholder="Comma separated list of tags. eg. DeSo,Vibehut,Events"
+            />
+            <label name="postHash" class="col-span-1">Details</label>
+            <textarea
+              placeholder="Anything else you'd like us to know?"
               class="col-span-3 border inline-flex items-center justify-center px-5 py-3 border border-indigo text-base font-medium rounded-md text-indigo"
               type="input"
-              {...register("tags", { required: true })}
-          />
-
+              {...register("details", { required: false })}
+            />
             { !submitted && !error &&
               <input
                 type="submit"
@@ -137,8 +111,6 @@ export default function New() {
               class="col-end-5 col-span-1 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-400 hover:bg-red-700">
               </input>
               }
-
-
 
           </form>
     </Fragment>

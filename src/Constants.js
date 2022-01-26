@@ -1,12 +1,14 @@
 // { name: 'Luis Borges', href: '/luis-borges' },
 
 export default {
-    navigation: [  { name: 'Home', href: '/' },
-    { name: 'Calendar', href: '/calendar' },
-    { name: 'Bot', href: '/bot' },
-    { name: 'Feature Requests', href: '/feature-requests' },
-    { name: 'Watchlist', href: '/watchlist' },
-    { name: 'Prices', href: '/prices' }
+    navigation: [  
+      { name: 'Home', href: '/' },
+      { name: 'Add Event', href: '/events/new' },
+    // { name: 'Calendar', href: '/calendar' },
+    // { name: 'Bot', href: '/bot' },
+    // { name: 'Feature Requests', href: '/feature-requests' },
+    // { name: 'Watchlist', href: '/watchlist' },
+    // { name: 'Prices', href: '/prices' }
   ],
   firebaseConfig: {
     apiKey: "AIzaSyBcA_QFH0Lc8tJVzjsw2H5HKrBr8rz-oA8",
